@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(images/fotor-ai-20241013175259\ copy.png); /* Light cream background */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-position: center;  /* Centers the image */
+            background-size: contain;
+            display: flex;
+            justify-content:end;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .sign-in-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align:center;
+        }
+
+        h1 {
+            color: #d35400;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #d35400; /* Orange button */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+
+        .greeting {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #27ae60; /* Green color for greeting */
+        }
+    </style>
+</head>
+<body>
+
+<div class="sign-in-container">
+    <h1>Sign In</h1>
+    <form id="signInForm">
+        <label for="name">Enter Your Name:</label>
+        <input type="text" id="name" placeholder="John Doe" required>
+        
+        <label for="phone">Enter Your Phone Number:</label>
+        <input type="tel" id="phone" placeholder="123-456-7890" required>
+        
+        <button type="submit"><a href="homepage.html">Sign In</a></button>
+    </form>
+
+    <div class="greeting" id="greetingMessage" style="display: none;"></div>
+</div>
+
+<script>
+    document.getElementById('signInForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('phone').value;
+        
+        if (name && phone) {
+            const greetingMessage = document.getElementById('greetingMessage');
+            const currentHour = new Date().getHours();
+            let greeting = '';
+
+            if (currentHour < 12) {
+                greeting = 'Good Morning';
+            } else if (currentHour < 18) {
+                greeting = 'Good Afternoon';
+            } else {
+                greeting = 'Good Evening';
+            }
+
+            greetingMessage.innerHTML = `${greeting}, ${name}! Welcome to Pizza Portal.`;
+            greetingMessage.style.display = 'block';
+        }
+    });
+</script>
+
+</body>
+</html>

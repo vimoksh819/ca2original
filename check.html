@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f1e7; /* Light cream background */
+        }
+
+        header {
+            background-color: blue; /* Rich orange header color */
+            color: #fff; /* White text color */
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px; /* Increased font size */
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff; /* White background for the cart */
+            border-radius: 8px; /* Slightly more rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item h3 {
+            margin: 0;
+            font-size: 20px; /* Increased font size */
+            color: #c0392b; /* Dark red text color */
+        }
+
+        .cart-item .price {
+            font-weight: bold;
+            color: #27ae60; /* Green color for price */
+            font-size: 18px; /* Increased font size */
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-controls button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: none;
+            background-color: bisque; /* Orange color for buttons */
+            color: white; /* White text color */
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .quantity-controls button:hover {
+            background-color: cyan; /* Darker orange on hover */
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 15px;
+            text-align: center;
+            background-color: beige; /* Dark red color for action buttons */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s; /* Smooth transition */
+        }
+
+        .action-buttons:hover {
+            background-color: cyan; /* Darker red on hover */
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: black; /* Rich orange footer color */
+            color: #fff; /* White text color */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Your Cart</h1>
+</header>
+
+<div class="cart-container" id="cart-items">
+    <h2>Items in your cart</h2>
+    <!-- Cart items will be dynamically generated here -->
+</div>
+
+<div class="action-buttons">
+    <button class="back"><a href="homepage.html">Back</button>
+    <button class="buy-now"><a href="delivery.html">Buy Now</a></button>
+    <button class="clear-cart" onclick="clearCart()">Clear Cart</button>
+</div>
+
+<footer>
+    <p>&copy; 2024 Pizza Portal. All rights reserved.</p>
+</footer>
+
+<script>
+    function loadCart() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartContainer = document.getElementById('cart-items');
+
+        if (cart.length === 0) {
+            cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+            return;
+        }
+
+        cart.forEach((item, index) => {
+            const cartItem = document.createElement('div');
+            cartItem.classList.add('cart-item');
+            cartItem.innerHTML = `
+                <h3>${item.name}</h3>
+                <div class="quantity-controls">
+                    <button onclick="updateQuantity(${index}, -1)">-</button>
+                    <span class="quantity">${item.quantity}</span>
+                    <button onclick="updateQuantity(${index}, 1)">+</button>
+                </div>
+                <p class="price">$${(item.price * item.quantity).toFixed(2)}</p>
+            `;
+            cartContainer.appendChild(cartItem);
+        });
+    }
+
+    function updateQuantity(index, change) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (cart[index].quantity + change > 0) {
+            cart[index].quantity += change;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            // Refresh the cart view
+            document.getElementById('cart-items').innerHTML = '';
+            loadCart();
+        }
+    }
+
+    function proceedToPayment() {
+        localStorage.removeItem('cart'); // Clear the cart
+        window.location.href = 'payment.html'; // Redirect to payment page
+    }
+
+    function clearCart() {
+        localStorage.removeItem('cart'); // Clear the cart
+        document.getElementById('cart-items').innerHTML = '<p>Your cart is empty.</p>'; // Update the cart view
+    }
+
+    function goBack() {
+        window.location.href = 'index.html'; // Redirect to homepage
+    }
+
+    // Load cart items when the page loads
+    window.onload = loadCart;
+</script>
+
+</body>
+</html>
